@@ -1,0 +1,9 @@
+{
+  "groups": [
+    {
+      "name": "dlock",
+      "type": "lib.skydo.dlock.DlockProperties",
+      "sourceType": "lib.skydo.dlock.DlockProperties"
+    }
+  ]
+}
