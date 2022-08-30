@@ -6,7 +6,7 @@
 
 <!--    Remove-->
 
-    <groupId>com.skydo</groupId>
+    <groupId>com.skydo.lib</groupId>
     <artifactId>dlock</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <name>Distributed lock</name>
