@@ -24,12 +24,6 @@ public class DistributedLockAspect {
     @Autowired
     @Qualifier("redis") LockRegistry lockRegistry;
 
-//    private final LockRegistry lockRegistry;
-//
-//    public com.skydo.dlock.DistributedLockAspect(@Qualifier("redis") LockRegistry lockRegistry) {
-//        this.lockRegistry = lockRegistry;
-//    }
-
     Logger log = LoggerFactory.getLogger(DistributedLockAspect.class);
 
     @Pointcut("within(@lib.skydo.dlock.DistributedLock *)")

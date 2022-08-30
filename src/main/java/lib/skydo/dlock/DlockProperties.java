@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class DlockProperties {
     private String host;
     private String port;
+
     private String lockRegistry;
 
     public String getHost() {
