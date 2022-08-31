@@ -5,17 +5,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.Pool;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.integration.support.locks.LockRegistry;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisClientConfig;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocketFactory;
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -50,22 +54,32 @@ public class LockConfig {
 
         redisStandaloneConfiguration.setPort(port);
 
-        return new JedisConnectionFactory(redisStandaloneConfiguration, getJedisClientConfiguration());
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration, getJedisClientConfiguration());
+
+//        jedisConnectionFactory.getPoolConfig();
+
+//        jedisConnectionFactory.getPoolConfig().setMaxIdle(poolSize);
+
+        jedisConnectionFactory.afterPropertiesSet();
+
+        return jedisConnectionFactory;
     }
 
     @Bean
     public JedisClientConfiguration getJedisClientConfiguration() {
 
-        JedisClientConfiguration.JedisClientConfigurationBuilder builder = JedisClientConfiguration .builder();
+        JedisClientConfiguration.JedisClientConfigurationBuilder builder = JedisClientConfiguration.builder();
 
-        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
+//        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
 
-        genericObjectPoolConfig.setMaxTotal(poolSize);
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
 
-        return builder.usePooling().poolConfig(genericObjectPoolConfig).build();
+        jedisPoolConfig.setMaxIdle(poolSize);
 
+//        genericObjectPoolConfig.setMaxTotal(poolSize);
+
+        return builder.usePooling().poolConfig(jedisPoolConfig).build();
     }
-
 
 
 }
