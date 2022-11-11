@@ -46,7 +46,7 @@ public class DistributedLockAspect {
             lock = lockRegistry.obtain(key);
             lockAcquired = lock.tryLock(waitingTime, TimeUnit.SECONDS);
             if (!lockAcquired) {
-                throw new Exception("Lock is not available for key:$key");
+                throw new Exception("Lock is not available for key: " + key);
             }
             log.info("Successfully Acquired Lock");
 
