@@ -9,7 +9,7 @@
     <groupId>com.skydo.lib</groupId>
     <artifactId>dlock</artifactId>
 <!--    <version>0.0.4-LOCAL</version>-->
-    <version>1.0.2</version>
+    <version>1.0.4</version>
     <name>Distributed lock</name>
     <packaging>jar</packaging>
 
