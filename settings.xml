@@ -1,0 +1,22 @@
+<settings xmlns="https://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="https://maven.apache.org/SETTINGS/1.0.0                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.keyname>1A921B9C2A38A1F836EB66D9DA58A84D18327EA4</gpg.keyname>
+                <gpg.passphrase>welcome@123</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+    <servers>
+        <server>
+            <id>ossrh</id>
+            <username>vishaldhawan</username>
+            <password>!%dC!*%2Kq.Bw8X</password>
+        </server>
+    </servers>
+</settings>
