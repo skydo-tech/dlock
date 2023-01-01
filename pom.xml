@@ -98,6 +98,14 @@
     </developers>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>settings.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
 
             <plugin>
