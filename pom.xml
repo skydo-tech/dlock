@@ -102,7 +102,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>./src/main/resources/settings.xml</include>
+                    <include>./settings.xml</include>
                 </includes>
             </resource>
         </resources>
