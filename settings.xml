@@ -7,7 +7,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <gpg.keyname>4f861f8c-afa2-4041-9041-e28720e4d7ea</gpg.keyname>
+                <gpg.keyname>1A921B9C2A38A1F836EB66D9DA58A84D18327EA4</gpg.keyname>
                 <gpg.passphrase>welcome@123</gpg.passphrase>
             </properties>
         </profile>
