@@ -8,7 +8,8 @@
 
     <groupId>com.skydo.lib</groupId>
     <artifactId>dlock</artifactId>
-    <version>0.0.3</version>
+<!--    <version>0.0.4-LOCAL</version>-->
+    <version>1.0.4</version>
     <name>Distributed lock</name>
     <packaging>jar</packaging>
 
@@ -91,6 +92,27 @@
         <developer>
             <name>Vishal Dhawan</name>
             <email>vishal@skydo.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Ramit Hansda</name>
+            <email>ramit@skydo.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Abhijit Gairola</name>
+            <email>abhijit@skydo.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Raj Sheth</name>
+            <email>raj@skydo.com</email>
             <roles>
                 <role>developer</role>
             </roles>
