@@ -35,6 +35,9 @@ public class LockConfig {
     @Value("${dlock.port}")
     private Integer port;
 
+    @Value("${dlock.process.timeout}")
+    private Integer timeout;
+
     @Value("${dlock.pool_size}")
     private Integer poolSize;
 
@@ -42,7 +45,7 @@ public class LockConfig {
     @Qualifier("redis")
     public LockRegistry getLockRegistry()  {
 
-        return new RedisLockRegistry(getJedisConnectionFactory(), "lock-key");
+        return new RedisLockRegistry(getJedisConnectionFactory(), "lock-key", timeout);
     }
 
     @Bean
