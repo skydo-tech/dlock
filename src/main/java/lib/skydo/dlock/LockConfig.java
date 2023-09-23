@@ -29,6 +29,9 @@ public class LockConfig {
     @Value("${dlock.port}")
     private String port;
 
+    @Value("${dlock.process.timeout}")
+    private long processTimeout;
+
     @Bean
     @Qualifier("redis")
     public LockRegistry getLockRegistry(RedisConnectionFactory connectionFactory)  {
@@ -37,6 +40,6 @@ public class LockConfig {
 //        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
 //        config.setHostName();
 //        RedisConnectionFactory factory = new RedisConnectionFactory();
-        return new RedisLockRegistry(connectionFactory, "lock-key");
+        return new RedisLockRegistry(connectionFactory, "lock-key", processTimeout);
     }
 }
