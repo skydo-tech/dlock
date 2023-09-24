@@ -4,12 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<!--    Remove-->
-
     <groupId>com.skydo.lib</groupId>
     <artifactId>dlock</artifactId>
-<!--    <version>0.0.4-LOCAL</version>-->
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <name>Distributed lock</name>
     <packaging>jar</packaging>
 
