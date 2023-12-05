@@ -37,34 +37,37 @@ public class DistributedLockAspect {
 
         Lock lock = null;
         boolean lockAcquired = false;
+        String lockKeyCopy = "";
 
         try {
             long waitingTime = getWaitingTime(pjp);
             String key = getKey(pjp);
+            lockKeyCopy = key;
 
-            log.info("Trying to Acquire Lock for $key");
+            log.info("Trying to Acquire Lock for " + key);
             lock = lockRegistry.obtain(key);
             lockAcquired = lock.tryLock(waitingTime, TimeUnit.SECONDS);
             if (!lockAcquired) {
                 throw new Exception("Lock is not available for key: " + key);
             }
-            log.info("Successfully Acquired Lock");
+            log.info("Successfully Acquired Lock for " + key);
 
             return runProceedingJoinPoint(pjp);
 
         } catch (DistributedProxyException distributedProxyException) {
 
-            log.info("Error: PJP");
+            log.info("Failed to Acquire Lock " + lockKeyCopy);
             throw distributedProxyException.getCause();
 
         } catch (Exception exception) {
 
+            log.info("Failed to Acquire Lock " + lockKeyCopy);
             log.info(ExceptionUtils.getStackTrace(exception));
-            throw new DistributedLockException("Failed to Acquire Lock ${e.message}");
+            throw new DistributedLockException("Failed to Acquire Lock");
 
         } finally {
             if (lockAcquired) {
-                log.info("Releasing lock");
+                log.info("Releasing lock for key " + lockKeyCopy);
                 lock.unlock();
             }
         }
