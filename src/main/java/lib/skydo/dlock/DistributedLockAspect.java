@@ -24,6 +24,9 @@ public class DistributedLockAspect {
     @Autowired
     @Qualifier("redis") LockRegistry lockRegistry;
 
+    @Autowired
+    @Qualifier("redis-long") LockRegistry longLockRegistry;
+
     Logger log = LoggerFactory.getLogger(DistributedLockAspect.class);
 
     @Pointcut("within(@lib.skydo.dlock.DistributedLock *)")
@@ -40,30 +43,51 @@ public class DistributedLockAspect {
         String lockKeyCopy = "";
 
         try {
+
+            boolean isLongRegistry = distributedLock.isLongRunning();
+
             long waitingTime = getWaitingTime(pjp);
             String key = getKey(pjp);
             lockKeyCopy = key;
 
             log.info("Trying to Acquire Lock for " + key);
-            lock = lockRegistry.obtain(key);
+
+            if(isLongRegistry) {
+                log.info("Using Long Lock Registry for key " + key);
+                lock = longLockRegistry.obtain(key);
+            } else {
+                log.info("Using Normal Lock Registry for key " + key);
+                lock = lockRegistry.obtain(key);
+            }
+
             lockAcquired = lock.tryLock(waitingTime, TimeUnit.SECONDS);
             if (!lockAcquired) {
-                throw new Exception("Lock is not available for key: " + key);
+                throw new LockAcquisitionTimeout("Lock is not available for key: " + key);
             }
             log.info("Successfully Acquired Lock for " + key);
 
             return runProceedingJoinPoint(pjp);
 
+        } catch (InterruptedException interruptedException) {
+
+            log.info("InterruptedException Failure while acquiring lock for key " + lockKeyCopy);
+            throw interruptedException;
+
+        } catch (LockAcquisitionTimeout lockAcquisitionTimeout) {
+
+            log.info("LockAcquisitionTimeout Failure while acquiring lock for key  " + lockKeyCopy);
+            throw lockAcquisitionTimeout;
+
         } catch (DistributedProxyException distributedProxyException) {
 
-            log.info("Failed to Acquire Lock " + lockKeyCopy);
+            log.info("Failure while processing locK  " + lockKeyCopy);
             throw distributedProxyException.getCause();
 
         } catch (Exception exception) {
 
-            log.info("Failed to Acquire Lock " + lockKeyCopy);
+            log.info("Failure while processing locK  " + lockKeyCopy);
             log.info(ExceptionUtils.getStackTrace(exception));
-            throw new DistributedLockException("Failed to Acquire Lock");
+            throw new DistributedLockException("Failure while processing locK  " + lockKeyCopy);
 
         } finally {
             if (lockAcquired) {

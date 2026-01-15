@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DistributedLock {
-    long timeout() default 30L;
+    boolean isLongRunning() default false;
 }

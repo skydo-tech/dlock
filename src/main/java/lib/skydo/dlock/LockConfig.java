@@ -49,6 +49,13 @@ public class LockConfig {
     }
 
     @Bean
+    @Qualifier("redis-long")
+    public LockRegistry getLongLockRegistry()  {
+
+        return new RedisLockRegistry(getJedisConnectionFactory(), "lock-key", 1000*60*15);
+    }
+
+    @Bean
     public JedisConnectionFactory getJedisConnectionFactory () {
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
