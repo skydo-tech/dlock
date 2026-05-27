@@ -27,6 +27,9 @@ public class DistributedLockAspect {
     @Autowired
     @Qualifier("redis-long") LockRegistry longLockRegistry;
 
+    @Autowired
+    @Qualifier("redis-infinite") LockRegistry infiniteLockRegistry;
+
     Logger log = LoggerFactory.getLogger(DistributedLockAspect.class);
 
     @Pointcut("within(@lib.skydo.dlock.DistributedLock *)")
@@ -45,6 +48,7 @@ public class DistributedLockAspect {
         try {
 
             boolean isLongRegistry = distributedLock.isLongRunning();
+            boolean isInfiniteRegistry = distributedLock.isInfinite();
 
             long waitingTime = getWaitingTime(pjp);
             String key = getKey(pjp);
@@ -52,7 +56,10 @@ public class DistributedLockAspect {
 
             log.info("Trying to Acquire Lock for " + key);
 
-            if(isLongRegistry) {
+            if(isInfiniteRegistry) {
+                log.info("Using Infinite Lock Registry for key " + key);
+                lock = infiniteLockRegistry.obtain(key);
+            } else if(isLongRegistry) {
                 log.info("Using Long Lock Registry for key " + key);
                 lock = longLockRegistry.obtain(key);
             } else {

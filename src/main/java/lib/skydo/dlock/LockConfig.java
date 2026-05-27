@@ -56,6 +56,12 @@ public class LockConfig {
     }
 
     @Bean
+    @Qualifier("redis-infinite")
+    public LockRegistry getInfiniteLockRegistry()  {
+        return new RedisLockRegistry(getJedisConnectionFactory(), "lock-key", 1000L * 60 * 60 * 24 * 365 * 10);
+    }
+
+    @Bean
     public JedisConnectionFactory getJedisConnectionFactory () {
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
